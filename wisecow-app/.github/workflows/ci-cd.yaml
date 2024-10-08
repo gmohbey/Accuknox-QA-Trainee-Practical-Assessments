@@ -21,13 +21,21 @@ jobs:
         run: |
           echo "${{ secrets.GIT_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
+      # Build Docker image using the Dockerfile from the specified directory
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/gmohbey/wisecow-app:latest -f docker/Dockerfile .
+          docker build -t ghcr.io/gmohbey/wisecow-app:latest -f Accuknox\ QA\ Trainee\ Practical\ Assessments/wisecow-app/docker/Dockerfile .
 
+      # Push Docker image to GitHub Container Registry
       - name: Push Docker image
         run: |
           docker push ghcr.io/gmohbey/wisecow-app:latest
+
+      # Make the wisecow.sh script executable and run it
+      - name: Make and run wisecow.sh script
+        run: |
+          chmod +x Accuknox\ QA\ Trainee\ Practical\ Assessments/wisecow-app/docker/wisecow.sh
+          ./Accuknox\ QA\ Trainee\ Practical\ Assessments/wisecow-app/docker/wisecow.sh
 
   deploy:
     needs: build-and-push
